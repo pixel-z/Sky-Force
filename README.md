@@ -4,11 +4,19 @@ Libraries required:
 - three.js
 
 ## Instructions to start
+- To load 3D models we cannot run on browsers due to security policy issues (CORS issues).
+- Therefore http server is setup.
+
+- First install required libraries by:
+
 ```
 npm install
+```
+- Run the following program where index.html is present:
+```
 npm start
 ```
 
-`firefox index.html` can also be used instead of npm start (does exactly the same thing).
-
-If Firefox is not preferred then just load index.html into your preferred browser.
+If Firefox is not preferred then:
+- npm start and close the firefox window.
+- Open http://localhost:3000/ on preferred browser.

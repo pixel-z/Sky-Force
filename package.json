@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "firefox index.html"
+    "start": "firefox http://localhost:3000/ && http-server . -p 3000"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "homepage": "https://github.com/pixel-z/Sky-Force#readme",
   "devDependencies": {
     "three": "^0.127.0"
+  },
+  "dependencies": {
+    "http-server": "^0.12.3"
   }
 }
