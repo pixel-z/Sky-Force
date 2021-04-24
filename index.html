@@ -8,14 +8,47 @@
 		body {
 			margin: 0;
 		}
+        .score-container {
+            background-color: grey;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition: transform 0.5s 4s;
+        }
+        .score-container #score {
+            color: purple;
+            font-size: 3.5vh;
+            font-family: 'Exo', sans-serif;
+            font-weight: 700;
+        }
+        .health-container {
+            background-color: grey;
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            transition: transform 0.5s 4s;
+        }
+        .health-container #health {
+            color: greenyellow;
+            font-size: 3.5vh;
+            font-family: 'Exo', sans-serif;
+            font-weight: 700;
+        }
 	</style>
 	<!-- importing threejs -->
 	<script src="./node_modules/three/build/three.js"></script>
+	<script src="./node_modules/three/build/three.min.js"></script>
 	<script src="./node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 
 <body>
-	<!-- to be used in collision -->
+	<div class="score-container">
+        <div id="score"></div>
+    </div>
+	<div class="health-container">
+        <div id="health"></div>
+    </div>
+
 	<script src="./js/index.js"></script>
 </body>
 

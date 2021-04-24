@@ -25,4 +25,5 @@ npm start
 
 ## Technicalities
 
-- Camera is located on (0,0,+z) looking at (0,0,0).
+- Fully responsive = `onWindowResize()` function is used in index.js
+- Camera is located on (0,-y,+z). It is to avoid making the game look 2D. 
