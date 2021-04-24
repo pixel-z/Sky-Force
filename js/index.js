@@ -11,7 +11,7 @@ const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize( window.innerWidth, window.innerHeight );  // whole window
 document.body.appendChild( renderer.domElement );
 
-// renders axes
+// renders axes (green = y-axis, red = x-axis, blue = z-axis)
 // const axesHelper = new THREE.AxesHelper(1000);
 // scene.add(axesHelper);
 
@@ -26,6 +26,8 @@ scene.add( light );
 // const cube = new THREE.Mesh( geometry, material );
 // scene.add( cube );
 
+camera.lookAt(0,0,0);
+// camera.position.y = 5;
 camera.position.z = 5;
 
 // loading models   --------------------------
@@ -35,9 +37,9 @@ function loadModel(url) {
     });
 }
 let model1, model2, model3;
-let p1 = loadModel('models/paper_plane.glb').then(result => {  model1 = result.scene.children[0]; });
-// let p2 = loadModel('models/paper_plane.glb').then(result => {  model2 = result.scene.children[0]; });
-// let p3 = loadModel('models/paper_plane.glb').then(result => {  model3 = result.scene.children[0]; });
+let p1 = loadModel('models/paper_plane.glb').then(result => {  model1 = result.scene; });
+let p2 = loadModel('models/paper_plane.glb').then(result => {  model2 = result.scene; });
+let p3 = loadModel('models/paper_plane.glb').then(result => {  model3 = result.scene; });
 
 objectList = [p1,p2,p3];
 
