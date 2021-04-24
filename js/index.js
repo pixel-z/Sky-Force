@@ -1,9 +1,15 @@
-function loadModel(url) {
-    return new Promise((resolve) => {
-        new THREE.GLTFLoader().load(url, resolve);
-    });
+// to make it responsive to changing size
+function onWindowResize() {
+    // Camera frustum aspect ratio
+    camera.aspect = window.innerWidth / window.innerHeight;
+    // After making changes to aspect
+    camera.updateProjectionMatrix();
+    // Reset size
+    renderer.setSize(window.innerWidth, window.innerHeight);
 }
+window.addEventListener("resize", onWindowResize, false);
 
+// init
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );  // (FOV, aspect ratio, near, far)
 
@@ -11,24 +17,22 @@ const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize( window.innerWidth, window.innerHeight );  // whole window
 document.body.appendChild( renderer.domElement );
 
+//Load background texture
+const loader = new THREE.TextureLoader();
+loader.load('models/background.jpeg' , function(texture)
+{
+    scene.background = texture;  
+});
+
 // renders axes (green = y-axis, red = x-axis, blue = z-axis)
-// const axesHelper = new THREE.AxesHelper(1000);
-// scene.add(axesHelper);
+const axesHelper = new THREE.AxesHelper(1000);
+scene.add(axesHelper);
 
 // light
-const light = new THREE.AmbientLight(0x404040); // white light
-light.position.set( 0, 0, 80)
+const color = 0xffffff, intensity = 1;
+var light = new THREE.DirectionalLight(color, intensity);
+light.position.set( 0, 0, 60)
 scene.add( light );
-
-// cube
-// const geometry = new THREE.BoxGeometry();
-// const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-// const cube = new THREE.Mesh( geometry, material );
-// scene.add( cube );
-
-camera.lookAt(0,0,0);
-// camera.position.y = 5;
-camera.position.z = 5;
 
 // loading models   --------------------------
 function loadModel(url) {
@@ -37,19 +41,21 @@ function loadModel(url) {
     });
 }
 let model1, model2, model3;
-let p1 = loadModel('models/paper_plane.glb').then(result => {  model1 = result.scene; });
-let p2 = loadModel('models/paper_plane.glb').then(result => {  model2 = result.scene; });
-let p3 = loadModel('models/paper_plane.glb').then(result => {  model3 = result.scene; });
+let p1 = loadModel('models/player.glb').then(result => {  model1 = result.scene; });
 
-objectList = [p1,p2,p3];
+objectList = [p1];
 
 //if all Promises resolved 
 Promise.all(objectList).then(() => {
     model1.position.set(0,0,0);
+    model1.rotation.x = 1.5;
+    model1.scale.set(20,20,20);
  
     //add model to the scene
     scene.add(model1);
 });
+camera.position.z = 400;
+camera.lookAt(0,0,0);
 
 // --------------------------
 
@@ -60,8 +66,7 @@ function animate() {
 };
 
 function update() {
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
+    // model1.rotation.x += 0.01
 }
 
 animate();

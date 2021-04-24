@@ -17,6 +17,12 @@ npm install
 npm start
 ```
 
-If Firefox is not preferred then:
-- npm start and close the firefox window.
-- Open http://localhost:3000/ on preferred browser.
+- If Firefox is not preferred then:
+    - npm start and close the firefox window.
+    - Open http://localhost:3000/ on preferred browser.
+
+- If it doesnt load, just reload the window or change the browser.
+
+## Technicalities
+
+- Camera is located on (0,0,+z) looking at (0,0,0).
