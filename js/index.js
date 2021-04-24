@@ -35,13 +35,13 @@ function onDocumentKeyDown(event) {
     var ySpeed = 5;
     var keyCode = event.which;
     // WASD keys not arrow keys
-    if (keyCode == 87) {
+    if (keyCode == 87 && player.position.y <= 100) {
         player.position.y += ySpeed;
-    } if (keyCode == 83) {
+    } if (keyCode == 83 && player.position.y >= -20) {
         player.position.y -= ySpeed;
-    } if (keyCode == 65) {
+    } if (keyCode == 65 && player.position.x >= -120) {
         player.position.x -= xSpeed;
-    } if (keyCode == 68) {
+    } if (keyCode == 68 && player.position.x <= 120) {
         player.position.x += xSpeed;
     }
 };
@@ -75,18 +75,6 @@ light.position.set( 0, 0, 60)
 scene.add( light );
 light = new THREE.AmbientLight(0xffffff, 0.2);   // some light on every part
 scene.add(light)
-
-// // two lines
-// geometry = new THREE.Geometry();
-// geometry.vertices.push(
-//     new THREE.Vector3(0, 0, -10),
-//     new THREE.Vector3(0, 0, 10)
-// );
-// material = new THREE.LineBasicMaterial({
-//     color: 0x6699FF, linewidth: 5
-// });
-// var line1 = new THREE.Line(geometry, material);
-// scene.add(line1);
 
 // loading models   --------------------------
 let player;
