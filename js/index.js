@@ -78,17 +78,36 @@ scene.add(light)
 
 // loading models   --------------------------
 let player;
+let enemy1, enemy2, enemy3;
 let p1 = loadModel('models/player.glb').then(result => {  player = result.scene; });
-objectList = [p1];
+let p2 = loadModel('models/enemy.glb').then(result => {  enemy1 = result.scene; });
+let p3 = loadModel('models/enemy.glb').then(result => {  enemy2 = result.scene; });
+let p4 = loadModel('models/enemy.glb').then(result => {  enemy3 = result.scene; });
+objectList = [p1,p2,p3,p4];
 
 //if all Promises resolved 
 Promise.all(objectList).then(() => {
     player.position.set(0,0,0);
     player.rotation.x = 1.5;
     player.scale.set(6,6,6);
+
+    enemy1.position.set(0,180,0);
+    enemy1.scale.set(10,10,20);
+    enemy1.rotation.y = 1.6;
  
+    enemy2.position.set(100,150,0);
+    enemy2.scale.set(10,10,20);
+    enemy2.rotation.y = 1.6;
+
+    enemy3.position.set(-100,130,0);
+    enemy3.scale.set(10,10,20);
+    enemy3.rotation.y = 1.6;
+
     //add model to the scene
     scene.add(player);
+    scene.add(enemy1);
+    scene.add(enemy2);
+    scene.add(enemy3);
 });
 // --------------------------
 
