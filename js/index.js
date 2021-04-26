@@ -21,10 +21,34 @@ function animate() {
 
 function update() {
     document.addEventListener("keydown", onDocumentKeyDown, false);
+    var enemy_speed = 3;
+    // enemy movement
+    if (enemy_move_dir[0]==1) {
+        enemy1.position.x+=enemy_speed
+        if (enemy1.position.x+enemy_speed >= 120) enemy_move_dir[0]*=-1;
+    }
+    else {
+        enemy1.position.x-=enemy_speed
+        if (enemy1.position.x-enemy_speed <= -120) enemy_move_dir[0]*=-1;
+    }
 
-    
+    if (enemy_move_dir[1]==1) {
+        enemy2.position.x+=enemy_speed
+        if (enemy2.position.x+enemy_speed >= 120) enemy_move_dir[1]*=-1;
+    }
+    else {
+        enemy2.position.x-=enemy_speed
+        if (enemy2.position.x-enemy_speed <= -120) enemy_move_dir[1]*=-1;
+    }
 
-    score+=0.03
+    if (enemy_move_dir[2]==1) {
+        enemy3.position.x+=enemy_speed
+        if (enemy3.position.x+enemy_speed >= 120) enemy_move_dir[2]*=-1;
+    }
+    else {
+        enemy3.position.x-=enemy_speed
+        if (enemy3.position.x-enemy_speed <= -120) enemy_move_dir[2]*=-1;
+    }
     scoreText.innerText = "Score:" + Math.floor(score);
     healthText.innerText = "Health:" + Math.floor(health);
 }
@@ -78,7 +102,7 @@ scene.add(light)
 
 // loading models   --------------------------
 let player;
-let enemy1, enemy2, enemy3;
+var enemy1, enemy2, enemy3;
 let p1 = loadModel('models/player.glb').then(result => {  player = result.scene; });
 let p2 = loadModel('models/enemy.glb').then(result => {  enemy1 = result.scene; });
 let p3 = loadModel('models/enemy.glb').then(result => {  enemy2 = result.scene; });
@@ -115,6 +139,7 @@ camera.position.y = -40;
 camera.position.z = 100;
 camera.lookAt(0,50,0);
 
+var enemy_move_dir = [1,-1,-1]; // 1 = right, -1 = left
 var score = 0;
 var scoreText = document.getElementById("score");
 var health = 3;
