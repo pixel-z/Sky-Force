@@ -124,6 +124,7 @@ function update() {
             {
                 health -= 1;
                 missile.scale.set(0,0);
+                missile.position.set(-100,-100,-100);
                 missileArray.splice(i,1);
             }
         }
