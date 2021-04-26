@@ -55,14 +55,14 @@ function update() {
         const missile = missileArray[i];
         missile.position.y += 2;
         if (missile.position.y > 250) {
-            missile.scale.set(0,0);
+            missile.scale.set(0,0,0);
             missileArray.splice(i,1);
         }
 
         // collision checks
         else{
             if (missile.position.x+25 <= enemy1.position.x+15 &&  missile.position.x+25 >= enemy1.position.x-15 &&
-                missile.position.y == enemy1.position.y ) 
+                missile.position.y <= enemy1.position.y+1 && missile.position.y >= enemy1.position.y-1 ) 
             {
                 score += 30;
                 missile.scale.set(0,0);
@@ -72,7 +72,7 @@ function update() {
                 enemy1.position.set(-100,-100,-100);
             }
             else if (missile.position.x+25 <= enemy2.position.x+15 &&  missile.position.x+25 >= enemy2.position.x-15 &&
-                missile.position.y == enemy2.position.y ) {
+                missile.position.y <= enemy2.position.y+1 && missile.position.y >= enemy2.position.y-1 ) {
                 score += 10;
                 missile.scale.set(0,0);
                 missileArray.splice(i,1);
@@ -81,13 +81,50 @@ function update() {
                 enemy2.position.set(-100,-100,-100);
             }
             else if (missile.position.x+25 <= enemy3.position.x+15 &&  missile.position.x+25 >= enemy3.position.x-15 &&
-                missile.position.y == enemy3.position.y ) {
+                missile.position.y <= enemy3.position.y+1 && missile.position.y >= enemy3.position.y-1 ) {
                 score += 10;
                 missile.scale.set(0,0);
                 missileArray.splice(i,1);
                 
                 enemy3.scale.set(0,0);
                 enemy3.position.set(-100,-100,-100);
+            }
+        }
+    }
+
+    // enemy missile counter
+    enemy_missile_timer++;
+    if (enemy_missile_timer >= max_enemy_shoot_time) {
+        enemy_missile_timer = 0;
+
+        var missileGeometry = new THREE.SphereGeometry(2, 8, 6);
+        var wireMaterial = new THREE.MeshBasicMaterial({
+            color: 0xed1c24,
+        });
+        missile = new THREE.Mesh(missileGeometry, wireMaterial);
+        missile.position.set(enemy1.position.x-20,enemy1.position.y,0);
+        scene.add(missile);
+        enemy_missile_array.push(missile);
+    }
+
+    // updating enemy missile positions
+    for (let i = 0; i < enemy_missile_array.length; i++) {
+        const missile = enemy_missile_array[i];
+        missile.position.y -= 2;
+        if (missile.position.y <= -25) {
+            missile.scale.set(0,0,0);
+            enemy_missile_array.splice(i,1);
+        }
+
+        // collision check
+        else {
+            // decrease health
+            if (missile.position.x <= player.position.x+15 &&  missile.position.x >= player.position.x-15 &&
+                missile.position.y <= player.position.y+1 && missile.position.y >= player.position.y-1 ) 
+            {
+                health -= 1;
+                missile.scale.set(0,0);
+                missileArray.splice(i,1);
             }
         }
     }
@@ -204,5 +241,7 @@ var scoreText = document.getElementById("score");
 var health = 3;
 var healthText = document.getElementById("health");
 var missileArray = [];
+var enemy_missile_timer = 0, max_enemy_shoot_time = 30;
+var enemy_missile_array = [];
 
 animate();
