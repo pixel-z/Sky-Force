@@ -53,10 +53,42 @@ function update() {
     // missiles
     for (let i = 0; i < missileArray.length; i++) {
         const missile = missileArray[i];
-        missile.position.y += 1;
+        missile.position.y += 2;
         if (missile.position.y > 250) {
             missile.scale.set(0,0);
             missileArray.splice(i,1);
+        }
+
+        // collision checks
+        else{
+            if (missile.position.x+25 <= enemy1.position.x+15 &&  missile.position.x+25 >= enemy1.position.x-15 &&
+                missile.position.y == enemy1.position.y ) 
+            {
+                score += 30;
+                missile.scale.set(0,0);
+                missileArray.splice(i,1);
+                
+                enemy1.scale.set(0,0);
+                enemy1.position.set(-100,-100,-100);
+            }
+            else if (missile.position.x+25 <= enemy2.position.x+15 &&  missile.position.x+25 >= enemy2.position.x-15 &&
+                missile.position.y == enemy2.position.y ) {
+                score += 10;
+                missile.scale.set(0,0);
+                missileArray.splice(i,1);
+                
+                enemy2.scale.set(0,0);
+                enemy2.position.set(-100,-100,-100);
+            }
+            else if (missile.position.x+25 <= enemy3.position.x+15 &&  missile.position.x+25 >= enemy3.position.x-15 &&
+                missile.position.y == enemy3.position.y ) {
+                score += 10;
+                missile.scale.set(0,0);
+                missileArray.splice(i,1);
+                
+                enemy3.scale.set(0,0);
+                enemy3.position.set(-100,-100,-100);
+            }
         }
     }
 
@@ -93,7 +125,8 @@ function shootMissile() {
     missile.position.set(player.position.x,player.position.y,player.position.z);
     scene.add(missile);
     missileArray.push(missile);
-    // console.log(missileArray.length);
+    // console.log(missile.position.x, missile.position.y);
+    // console.log(enemy2.position.x, enemy2.position.y);
 }
 
 // to make it responsive to changing size
@@ -130,7 +163,7 @@ scene.add(light)
 let player;
 var enemy1, enemy2, enemy3;
 let p1 = loadModel('models/player.glb').then(result => {  player = result.scene; });
-let p2 = loadModel('models/enemy.glb').then(result => {  enemy1 = result.scene; });
+let p2 = loadModel('models/enemy_boss.glb').then(result => {  enemy1 = result.scene; });
 let p3 = loadModel('models/enemy.glb').then(result => {  enemy2 = result.scene; });
 let p4 = loadModel('models/enemy.glb').then(result => {  enemy3 = result.scene; });
 objectList = [p1,p2,p3,p4];

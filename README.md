@@ -27,3 +27,8 @@ npm start
 
 - Fully responsive = `onWindowResize()` function is used in index.js
 - Camera is located on (0,-y,+z). It is to avoid making the game look 2D. 
+- Background texture was also implemented but was removed. It is still commented in code and can be enabled easily.
+
+### Keys
+- WASD standard movements
+- Space to shoot missiles.
