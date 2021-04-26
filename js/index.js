@@ -49,6 +49,17 @@ function update() {
         enemy3.position.x-=enemy_speed
         if (enemy3.position.x-enemy_speed <= -120) enemy_move_dir[2]*=-1;
     }
+
+    // missiles
+    for (let i = 0; i < missileArray.length; i++) {
+        const missile = missileArray[i];
+        missile.position.y += 1;
+        if (missile.position.y > 250) {
+            missile.scale.set(0,0);
+            missileArray.splice(i,1);
+        }
+    }
+
     scoreText.innerText = "Score:" + Math.floor(score);
     healthText.innerText = "Health:" + Math.floor(health);
 }
@@ -67,8 +78,23 @@ function onDocumentKeyDown(event) {
         player.position.x -= xSpeed;
     } if (keyCode == 68 && player.position.x <= 120) {
         player.position.x += xSpeed;
+    } if (keyCode == 32) {
+        // spacebar
+        shootMissile();
     }
 };
+
+function shootMissile() {
+    var missileGeometry = new THREE.SphereGeometry(2, 8, 6);
+    var wireMaterial = new THREE.MeshBasicMaterial({
+        color: 0x00FA9A,
+    });
+    missile = new THREE.Mesh(missileGeometry, wireMaterial);
+    missile.position.set(player.position.x,player.position.y,player.position.z);
+    scene.add(missile);
+    missileArray.push(missile);
+    // console.log(missileArray.length);
+}
 
 // to make it responsive to changing size
 window.addEventListener("resize", onWindowResize, false);
@@ -144,5 +170,6 @@ var score = 0;
 var scoreText = document.getElementById("score");
 var health = 3;
 var healthText = document.getElementById("health");
+var missileArray = [];
 
 animate();
