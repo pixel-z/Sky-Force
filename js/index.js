@@ -1,3 +1,7 @@
+function randomNumber(min, max) { 
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
 function onWindowResize() {
     // Camera frustum aspect ratio
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -21,117 +25,180 @@ function animate() {
 
 function update() {
     document.addEventListener("keydown", onDocumentKeyDown, false);
-    var enemy_speed = 3;
-    // enemy movement
-    if (enemy_move_dir[0]==1) {
-        enemy1.position.x+=enemy_speed
-        if (enemy1.position.x+enemy_speed >= 120) enemy_move_dir[0]*=-1;
-    }
-    else {
-        enemy1.position.x-=enemy_speed
-        if (enemy1.position.x-enemy_speed <= -120) enemy_move_dir[0]*=-1;
+    
+    // gameOver
+    if ((enemy1.position.z == -100 && enemy2.position.z == -100 && enemy3.position.z == -100) || health<=0) {
+        // while(scene.children.length > 0){ 
+        //     scene.remove(scene.children[0]); 
+        // }
+
+        var backColor;
+        if (health<=0) backColor = 0xff3333;
+        else backColor = 0x00cc7a;
+
+        scene.background = new THREE.Color( backColor );
+        var gameOverText = document.getElementById("over");
+        gameOverText.innerHTML = "GAME OVER";
     }
 
-    if (enemy_move_dir[1]==1) {
-        enemy2.position.x+=enemy_speed
-        if (enemy2.position.x+enemy_speed >= 120) enemy_move_dir[1]*=-1;
-    }
-    else {
-        enemy2.position.x-=enemy_speed
-        if (enemy2.position.x-enemy_speed <= -120) enemy_move_dir[1]*=-1;
-    }
-
-    if (enemy_move_dir[2]==1) {
-        enemy3.position.x+=enemy_speed
-        if (enemy3.position.x+enemy_speed >= 120) enemy_move_dir[2]*=-1;
-    }
-    else {
-        enemy3.position.x-=enemy_speed
-        if (enemy3.position.x-enemy_speed <= -120) enemy_move_dir[2]*=-1;
-    }
-
-    // missiles
-    for (let i = 0; i < missileArray.length; i++) {
-        const missile = missileArray[i];
-        missile.position.y += 2;
-        if (missile.position.y > 250) {
-            missile.scale.set(0,0,0);
-            missileArray.splice(i,1);
+    else 
+    {
+        var enemy_speed = 3;
+        // enemy movement
+        if (enemy_move_dir[0]==1) {
+            enemy1.position.x+=enemy_speed
+            if (enemy1.position.x+enemy_speed >= 120) enemy_move_dir[0]*=-1;
         }
-
-        // collision checks
-        else{
-            if (missile.position.x+25 <= enemy1.position.x+15 &&  missile.position.x+25 >= enemy1.position.x-15 &&
-                missile.position.y <= enemy1.position.y+1 && missile.position.y >= enemy1.position.y-1 ) 
-            {
-                score += 30;
-                missile.scale.set(0,0);
-                missileArray.splice(i,1);
-                
-                enemy1.scale.set(0,0);
-                enemy1.position.set(-100,-100,-100);
-            }
-            else if (missile.position.x+25 <= enemy2.position.x+15 &&  missile.position.x+25 >= enemy2.position.x-15 &&
-                missile.position.y <= enemy2.position.y+1 && missile.position.y >= enemy2.position.y-1 ) {
-                score += 10;
-                missile.scale.set(0,0);
-                missileArray.splice(i,1);
-                
-                enemy2.scale.set(0,0);
-                enemy2.position.set(-100,-100,-100);
-            }
-            else if (missile.position.x+25 <= enemy3.position.x+15 &&  missile.position.x+25 >= enemy3.position.x-15 &&
-                missile.position.y <= enemy3.position.y+1 && missile.position.y >= enemy3.position.y-1 ) {
-                score += 10;
-                missile.scale.set(0,0);
-                missileArray.splice(i,1);
-                
-                enemy3.scale.set(0,0);
-                enemy3.position.set(-100,-100,-100);
-            }
-        }
-    }
-
-    // enemy missile counter
-    enemy_missile_timer++;
-    if (enemy_missile_timer >= max_enemy_shoot_time) {
-        enemy_missile_timer = 0;
-
-        var missileGeometry = new THREE.SphereGeometry(2, 8, 6);
-        var wireMaterial = new THREE.MeshBasicMaterial({
-            color: 0xed1c24,
-        });
-        missile = new THREE.Mesh(missileGeometry, wireMaterial);
-        missile.position.set(enemy1.position.x-20,enemy1.position.y,0);
-        scene.add(missile);
-        enemy_missile_array.push(missile);
-    }
-
-    // updating enemy missile positions
-    for (let i = 0; i < enemy_missile_array.length; i++) {
-        const missile = enemy_missile_array[i];
-        missile.position.y -= 2;
-        if (missile.position.y <= -25) {
-            missile.scale.set(0,0,0);
-            enemy_missile_array.splice(i,1);
-        }
-
-        // collision check
         else {
-            // decrease health
-            if (missile.position.x <= player.position.x+15 &&  missile.position.x >= player.position.x-15 &&
-                missile.position.y <= player.position.y+1 && missile.position.y >= player.position.y-1 ) 
-            {
-                health -= 1;
-                missile.scale.set(0,0);
-                missile.position.set(-100,-100,-100);
+            enemy1.position.x-=enemy_speed
+            if (enemy1.position.x-enemy_speed <= -120) enemy_move_dir[0]*=-1;
+        }
+
+        if (enemy_move_dir[1]==1) {
+            enemy2.position.x+=enemy_speed
+            if (enemy2.position.x+enemy_speed >= 120) enemy_move_dir[1]*=-1;
+        }
+        else {
+            enemy2.position.x-=enemy_speed
+            if (enemy2.position.x-enemy_speed <= -120) enemy_move_dir[1]*=-1;
+        }
+
+        if (enemy_move_dir[2]==1) {
+            enemy3.position.x+=enemy_speed
+            if (enemy3.position.x+enemy_speed >= 120) enemy_move_dir[2]*=-1;
+        }
+        else {
+            enemy3.position.x-=enemy_speed
+            if (enemy3.position.x-enemy_speed <= -120) enemy_move_dir[2]*=-1;
+        }
+
+        // missiles
+        for (let i = 0; i < missileArray.length; i++) {
+            const missile = missileArray[i];
+            missile.position.y += 2;
+            if (missile.position.y > 250) {
+                missile.scale.set(0,0,0);
                 missileArray.splice(i,1);
             }
-        }
-    }
 
-    scoreText.innerText = "Score:" + Math.floor(score);
-    healthText.innerText = "Health:" + Math.floor(health);
+            // collision checks
+            else{
+                if (missile.position.x+25 <= enemy1.position.x+15 &&  missile.position.x+25 >= enemy1.position.x-15 &&
+                    missile.position.y <= enemy1.position.y+1 && missile.position.y >= enemy1.position.y-1 ) 
+                {
+                    score += 30;
+                    missile.scale.set(0,0);
+                    missileArray.splice(i,1);
+                    
+                    enemy1.scale.set(0,0);
+                    enemy1.position.set(-100,-100,-100);
+                    makeStars();
+                    makeStars();
+                }
+                else if (missile.position.x+25 <= enemy2.position.x+15 &&  missile.position.x+25 >= enemy2.position.x-15 &&
+                    missile.position.y <= enemy2.position.y+1 && missile.position.y >= enemy2.position.y-1 ) {
+                    score += 10;
+                    missile.scale.set(0,0);
+                    missileArray.splice(i,1);
+                    
+                    enemy2.scale.set(0,0);
+                    enemy2.position.set(-100,-100,-100);
+                    makeStars();
+                }
+                else if (missile.position.x+25 <= enemy3.position.x+15 &&  missile.position.x+25 >= enemy3.position.x-15 &&
+                    missile.position.y <= enemy3.position.y+1 && missile.position.y >= enemy3.position.y-1 ) {
+                    score += 10;
+                    missile.scale.set(0,0);
+                    missileArray.splice(i,1);
+                    
+                    enemy3.scale.set(0,0);
+                    enemy3.position.set(-100,-100,-100);
+                    makeStars();
+                }
+            }
+        }
+
+        // enemy missile counter
+        enemy_missile_timer++;
+        if (enemy_missile_timer >= max_enemy_shoot_time) {
+            enemy_missile_timer = 0;
+
+            var missileGeometry = new THREE.SphereGeometry(2, 8, 6);
+            var wireMaterial = new THREE.MeshBasicMaterial({
+                color: 0xed1c24,
+            });
+            missile = new THREE.Mesh(missileGeometry, wireMaterial);
+            missile.position.set(enemy1.position.x-20,enemy1.position.y,0);
+            scene.add(missile);
+            enemy_missile_array.push(missile);
+        }
+
+        // updating enemy missile positions
+        for (let i = 0; i < enemy_missile_array.length; i++) {
+            const missile = enemy_missile_array[i];
+            missile.position.y -= 2;
+            if (missile.position.y <= -25) {
+                missile.scale.set(0,0,0);
+                enemy_missile_array.splice(i,1);
+            }
+
+            // collision check
+            else {
+                // decrease health
+                if (missile.position.x <= player.position.x+15 &&  missile.position.x >= player.position.x-15 &&
+                    missile.position.y <= player.position.y+1 && missile.position.y >= player.position.y-1 ) 
+                {
+                    health -= 1;
+                    missile.scale.set(0,0);
+                    missile.position.set(-100,-100,-100);
+                    missileArray.splice(i,1);
+                }
+            }
+        }
+
+        // coins collision
+        for (let i = 0; i < starArray.length; i++) {
+            const star = starArray[i];
+            if(starCollision(star) == 1){
+                score+=5;
+                star.scale.set(0,0,0);
+                starArray.splice(i,1);
+            }
+            else{
+                star.rotation.y+=0.1;
+            }
+        }
+
+        scoreText.innerText = "Score:" + Math.floor(score);
+        healthText.innerText = "Health:" + Math.floor(health);
+    }
+}
+
+function starCollision(star){
+    if (star.position.x <= player.position.x+15 &&  star.position.x >= player.position.x-15 &&
+        star.position.y <= player.position.y+3 && star.position.y >= player.position.y-3 ){
+        return 1;
+    }
+    return 0;
+}
+
+function makeStars() {
+    var x = randomNumber(-70,70);
+    var y = randomNumber(0,80);
+
+    var coinGeometry = new THREE.TorusGeometry(3, 2, 16, 100);
+	var material = new THREE.MeshStandardMaterial({
+        color: 0x0095DD,
+        wireframe: true,
+        wireframeLinewidth: 2
+    });
+    
+    star = new THREE.Mesh(coinGeometry, material);
+    star.position.set(x,y,0);
+    star.rotation.x = 1;
+    scene.add(star);
+    starArray.push(star);
+    console.log(star.position.x, star.position.y);
 }
 
 // movement of player
@@ -185,9 +252,9 @@ document.body.appendChild( renderer.domElement );
 //     scene.background = texture;  
 // });
 
-// renders axes (green = y-axis, red = x-axis, blue = z-axis)
-const axesHelper = new THREE.AxesHelper(1000);
-scene.add(axesHelper);
+// // renders axes (green = y-axis, red = x-axis, blue = z-axis)
+// const axesHelper = new THREE.AxesHelper(1000);
+// scene.add(axesHelper);
 
 // light
 const color = 0xffffff, intensity = 1;
@@ -244,5 +311,6 @@ var healthText = document.getElementById("health");
 var missileArray = [];
 var enemy_missile_timer = 0, max_enemy_shoot_time = 30;
 var enemy_missile_array = [];
+var starArray = [];
 
 animate();

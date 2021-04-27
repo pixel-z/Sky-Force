@@ -34,6 +34,19 @@
             font-family: 'Exo', sans-serif;
             font-weight: 700;
         }
+        .over-container {
+            background-color: darkslateblue;
+            position: absolute;
+            top: 90px;
+            right: 10px;
+            transition: transform 0.5s 4s;
+        }
+        .over-container #over {
+            color: purple;
+            font-size: 5vh;
+            font-family: 'Exo', sans-serif;
+            font-weight: 700;
+        }
 	</style>
 	<!-- importing threejs -->
 	<script src="./node_modules/three/build/three.js"></script>
@@ -49,6 +62,10 @@
     </div>
 
 	<script src="./js/index.js"></script>
+
+    <div class="over-container">
+        <div id="over"></div>
+    </div>
 </body>
 
 </html>

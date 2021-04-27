@@ -28,6 +28,11 @@ npm start
 - Fully responsive = `onWindowResize()` function is used in index.js
 - Camera is located on (0,-y,+z). It is to avoid making the game look 2D. 
 - Background texture was also implemented but was removed. It is still commented in code and can be enabled easily.
+- Killing the enemies will generate stars to increase score. The boss will generate 2 stars whereas others will generate only 1.
+- Killing all enemies or health == 0 triggers game over.
+- After game end, all the elements / functionality stops except the player. It can still roam around. 
+- To remove everything after game over (Removing free roam as explained in above point) just uncomment loop in line 31 in index.js.
+- Different game over backgrounds for loss and win. 
 
 ### Keys
 - WASD standard movements
