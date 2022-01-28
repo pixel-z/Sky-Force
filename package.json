@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/pixel-z/Sky-Force#readme",
   "devDependencies": {
-    "three": "^0.127.0"
+    "three": "^0.137.0"
   },
   "dependencies": {
     "http-server": "^0.12.3"
